@@ -13,4 +13,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])){
     }
 }
 
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmPres'])){
+    $presId = $_POST["id-prescription"];
+
+    $delete_query = "DELETE FROM mediweb_prescription WHERE prescription_id='$presId'";
+    if ($conn->query($delete_query) === TRUE) {
+        header("Location: prescription.php");
+    } else {
+        echo "Error: " . $delete_query . "<br>" . $conn->error;
+    }
+}
+
 ?>

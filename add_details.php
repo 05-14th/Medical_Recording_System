@@ -29,4 +29,52 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['fname'])){
         echo "Error: " . $insert_query . "<br>" . $conn->error;
     }   
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['docId'])){  
+    $d_id = $POST['docId'];
+    $name = $_POST['name'];
+    $designation = $_POST['designation'];
+    $phone = $_POST['phoneNum'];
+    $address= $_POST['address'];
+   
+    $insert_query = "INSERT INTO mediweb_doctor (doctor_id, name, designation, phone, address) VALUES ('$d_id','$name','$designation', '$phone', '$address')";
+    if ($conn->query($insert_query) === TRUE) {
+        header("Location: doctor.php");
+    } else {
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
+    }   
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['docId'])){  
+    $d_id = $POST['docId'];
+    $name = $_POST['name'];
+    $designation = $_POST['designation'];
+    $phone = $_POST['phoneNum'];
+    $address= $_POST['address'];
+   
+    $insert_query = "INSERT INTO mediweb_doctor (doctor_id, name, designation, phone, address) VALUES ('$d_id','$name','$designation', '$phone', '$address')";
+    if ($conn->query($insert_query) === TRUE) {
+        header("Location: doctor.php");
+    } else {
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
+    }   
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['doctorName']) && isset($_POST['patient_id'])){  
+    $d_name = $_POST['doctorName'];
+    $p_id = $_POST['patient_id'];
+    $medCon = $_POST['medicalCondition'];
+    $allergy = $_POST['allergies'];
+    $dateString = $_POST['date'];
+    $date = date('Y-m-d',strtotime($dateString));
+   
+    $insert_query = "INSERT INTO mediweb_prescription (doctor_id, patient_id, medicalCondition, allergies, date) VALUES ('$d_name','$p_id','$medCon', '$allergy', '$date')";
+    if ($conn->query($insert_query) === TRUE) {
+        header("Location: prescription.php");
+    } else {
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
+    }   
+}
+
 ?>
+

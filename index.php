@@ -34,10 +34,8 @@
         <div class="admin-dashboard">
             <nav>
                 <h3 style="text-align:center">Mediweb: Patient Management System</h3>
-                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="Patient.php">Patient Details</span><br>
-                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="">Doctor Details</span><br>
-                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="">Prescription Records</span><br>
-                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="">Patient Contacts</span><br>
+                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="patient.php">Patient Details</span><br>
+                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="prescription.php">Prescription Records</span><br>
                 <span class="btn btn-primary control-button" onclick= "window.location.href='logout.php'">Logout</span><br>
             </nav>
             <div id="touristSiteContent" class="touristSite">

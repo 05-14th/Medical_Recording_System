@@ -7,23 +7,15 @@ function generateData($sql){
     $dataResult = mysqli_query($conn, $sql);
     while ($medicalResult = mysqli_fetch_assoc($dataResult)){
         echo "<tr>";
-        echo "<td>" . $medicalResult['fname'] . "</td>";
-        echo "<td>" . $medicalResult['lname'] . "</td>";
-        echo "<td>" . $medicalResult['title'] . "</td>";
-        echo "<td>" . $medicalResult['preferredName'] . "</td>";
-        echo "<td>".  $medicalResult['gender'] ."</td>";
-        echo "<td>" . $medicalResult['birthdate'] . "</td>";
-        echo "<td>" . $medicalResult['bloodType'] . "</td>";
-        echo "<td>" . $medicalResult['maritalStatus'] . "</td>";
-        echo "<td>" . $medicalResult['sexualOrientation'] . "</td>";
-        echo "<td>" . $medicalResult['ward'] . "</td>";
-        echo "<td>" . $medicalResult['externalID'] . "</td>";
-        echo "<td>" . $medicalResult['licenseID'] . "</td>";
-        echo "<td>" . $medicalResult['updatedDate'] . "</td>";
+        echo "<td>".  $medicalResult['doctor_id'] ."</td>";
+        echo "<td>" . $medicalResult['name'] . "</td>";
+        echo "<td>" . $medicalResult['designation'] . "</td>";
+        echo "<td>" . $medicalResult['phone'] . "</td>";
+        echo "<td>" . $medicalResult['address'] . "</td>";
         echo "<td>";
-        //echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-success tweak-button' onclick=''>Print</button><br>";
-        echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
-        echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
+        //echo "<button type='button' data-id='" . $medicalResult['doctor_id'] ."' class='btn btn-success tweak-button' onclick=''>Print</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['doctor_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['doctor_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
         echo "</td>";
         echo "</tr>";
     }
@@ -79,19 +71,11 @@ function generateData($sql){
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Title</th>
-                    <th>Preferred Name</th>
-                    <th>Gender</th>
-                    <th>Bithdate</th>
-                    <th>Blood Type</th>
-                    <th>Marital Status</th>
-                    <th>Sexual Orientation</th>
-                    <th>Ward</th>
-                    <th>External ID</th>
-                    <th>Licensed ID</th>
-                    <th>Date Updated</th>
+                    <th>Doctor ID</th>
+                    <th>Name</th>
+                    <th>Designation</th>
+                    <th>Phone</th>
+                    <th>Address</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -100,18 +84,18 @@ function generateData($sql){
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search-button"])) {
                     if(strlen(trim($_POST['search-input'])) === 0) {
                         // Retrieve and sanitize the SQL query from the form
-                        $sql_query = "SELECT * FROM mediweb_patient";  
+                        $sql_query = "SELECT * FROM mediweb_doctor";  
                         generateData($sql_query);
                     }elseif(isset($_POST['search-input'])){
                         $search_result = $_POST['search-input'];
-                        $sql_query = "SELECT * FROM mediweb_patient WHERE fname LIKE '%$search_result%' OR  lname LIKE '%$search_result%'";  
+                        $sql_query = "SELECT * FROM mediweb_doctor WHERE name LIKE '%$search_result%' OR  name LIKE '%$search_result%'";  
                         generateData($sql_query);
                     }else {
-                        $sql_query = "SELECT * FROM mediweb_patient";  
+                        $sql_query = "SELECT * FROM mediweb_doctor";  
                         generateData($sql_query);    
                     }
                 }else {
-                    $sql_query = "SELECT * FROM mediweb_patient";  
+                    $sql_query = "SELECT * FROM mediweb_doctor";  
                     generateData($sql_query);    
                 }
                 ?>
@@ -137,71 +121,22 @@ function generateData($sql){
                 <div class="modal-body">
                     <form method="post" action="add_details.php" enctype="multipart/form-data">
                         <div class="form-group">
-                            <input class="form-control" name="fname" placeholder="First Name" required>
+                            <input class="form-control" name="docId" placeholder="Doctor ID" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="lname" placeholder="Last Name" required>
+                            <input class="form-control" name="name" placeholder="Full Name" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="title" placeholder="Title" required>
+                            <input class="form-control" name="designation" placeholder="Designation" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="preferredName" placeholder="Preferred Name" required>
+                            <input class="form-control" name="phoneNum" placeholder="Phone Number" required>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="gender" placeholder="Gender" required>
+                            <textarea class="form-control" name="address" placeholder="Address" rows="3" required></textarea>
                         </div>
-                        <div class="form-group"> 
-                            <input class="form-control" name="sexualOrientation" placeholder="Sexual Orientation" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="selected_date">Birthdate:</label>
-                            <input type="date" id="selected_date" name="selected_date">
-                        </div>
-                        <div class="form-group">
-                            <label for="bloodType">Blood Type: </label>
-                            <select name="bloodType" required>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="maritalStat">Marital Status: </label>
-                            <select name="maritalStat" required>
-                                <option value="Default" disabled>Select Marital Status</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Widowed">Widowed</option>
-                                <option value="Partners">Partners</option>
-                                <option value="Divorced">Divorced</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="wardType">Ward: </label>
-                            <select name="wardType" required>
-                                <option value="Medical">Medical Ward</option>
-                                <option value="OB">OB Ward</option>
-                                <option value="Surgical">Surgical Ward</option>
-                                <option value="Philhealth">Philhealth Ward</option>
-                                <option value="Pediatric">Pediatric Ward</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" name="externalId" placeholder="External ID" required>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control" name="licensedId" placeholder="Licensed ID" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="date_confirmed">Date: </label>
-                            <input id= "date_confiremd" class="form-control" value="<?php echo date("F j, Y"); ?>" name="date" readonly>
-                        </div>
+                        
+                        
                         <input type="submit" class="btn btn-success" name="add_site" value="Confirm">
                         <button type="button" class="btn btn-danger" name="cancel_add" onclick="closeModal()">Cancel</button>
                     </form>
@@ -285,7 +220,7 @@ function generateData($sql){
                 $.ajax({
                     type: 'POST',
                     url: 'edit_details.php', // Replace with your PHP file to retrieve place details
-                    data: { patient_id: placeId }, // Replace 'your_place_id' with the actual place ID
+                    data: { doctor_id: placeId }, // Replace 'your_place_id' with the actual place ID
                     success: function(response) {
                         // Inject the retrieved form content into the modal body
                         $('#destinationDetailsContent').html(response);
