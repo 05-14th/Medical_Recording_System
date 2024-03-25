@@ -59,9 +59,8 @@ function generateData($sql){
 <body>
     <div class="search-form">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <h2 style="text-align: center;">MediWeb Health Record</h2>
-            <div class="form-group">
-                <input style="width: 30vw; height: 6vh;" placeholder="Search for Health Record" name="search-input"><br>
+            <div class="form-group" style="display:flex;">
+                <input style="width: 30vw; height: 6vh;" placeholder="Search for Doctor" name="search-input"><br>
                 <input style="width: 6vw; height: 6vh;" type="submit" class="btn btn-primary" name="search-button" value="Search">    
             </div>
         </form>
@@ -176,9 +175,9 @@ function generateData($sql){
                 </div>
                 <div class="modal-body">
                     <form method="post"action="delete_details.php">
-                        <input type="hidden" name="id-container" id="id-container">
+                        <input type="hidden" name="id-doctor" id="id-container">
                         <h5>This action will cause this data to be permanently deleted. Are you sure you want to proceed?</h5>
-                        <input type="submit" value="Confirm" class="btn btn-danger" name="confirm">
+                        <input type="submit" value="Confirm" class="btn btn-danger" name="confirmDoc">
                         <button type="button" class="btn btn-success" onclick="closeModal()">Cancel</button>
                     </form>
                 </div>

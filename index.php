@@ -31,10 +31,18 @@
         }
     </style>
     <body>
+        <!-- Just an image -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="./Assets/M.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                MediWeb - Patient Management Systeam
+            </a>
+        </nav>
         <div class="admin-dashboard">
             <nav>
-                <h3 style="text-align:center">Mediweb: Patient Management System</h3>
                 <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="patient.php">Patient Details</span><br>
+                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="doctor.php">Doctor Details</span><br>
+                <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="insurance.php">Insurance Details</span><br>
                 <span class="btn btn-primary control-button" onclick= "togglePage(this)" data-link="prescription.php">Prescription Records</span><br>
                 <span class="btn btn-primary control-button" onclick= "window.location.href='logout.php'">Logout</span><br>
             </nav>

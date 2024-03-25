@@ -30,23 +30,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['fname'])){
     }   
 }
 
-if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['docId'])){  
-    $d_id = $POST['docId'];
-    $name = $_POST['name'];
-    $designation = $_POST['designation'];
-    $phone = $_POST['phoneNum'];
-    $address= $_POST['address'];
-   
-    $insert_query = "INSERT INTO mediweb_doctor (doctor_id, name, designation, phone, address) VALUES ('$d_id','$name','$designation', '$phone', '$address')";
-    if ($conn->query($insert_query) === TRUE) {
-        header("Location: doctor.php");
-    } else {
-        echo "Error: " . $insert_query . "<br>" . $conn->error;
-    }   
-}
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['docId'])){  
-    $d_id = $POST['docId'];
+    $d_id = $_POST['docId'];
     $name = $_POST['name'];
     $designation = $_POST['designation'];
     $phone = $_POST['phoneNum'];

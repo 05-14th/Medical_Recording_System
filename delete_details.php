@@ -14,11 +14,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmPres'])){
-    $presId = $_POST["id-prescription"];
+    $docId = $_POST["id-prescription"];
 
-    $delete_query = "DELETE FROM mediweb_prescription WHERE prescription_id='$presId'";
+    $delete_query = "DELETE FROM mediweb_prescription WHERE prescription_id='$docId'";
     if ($conn->query($delete_query) === TRUE) {
         header("Location: prescription.php");
+    } else {
+        echo "Error: " . $delete_query . "<br>" . $conn->error;
+    }
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmDoc'])){
+    $docId = $_POST["id-doctor"];
+
+    $delete_query = "DELETE FROM mediweb_doctor WHERE doctor_id='$docId'";
+    if ($conn->query($delete_query) === TRUE) {
+        header("Location: doctor.php");
     } else {
         echo "Error: " . $delete_query . "<br>" . $conn->error;
     }
