@@ -218,7 +218,7 @@ function generateData($sql){
                 // AJAX request to send data to PHP
                 $.ajax({
                     type: 'POST',
-                    url: 'edit_details.php', // Replace with your PHP file to retrieve place details
+                    url: 'edit_doctor.php', // Replace with your PHP file to retrieve place details
                     data: { doctor_id: placeId }, // Replace 'your_place_id' with the actual place ID
                     success: function(response) {
                         // Inject the retrieved form content into the modal body

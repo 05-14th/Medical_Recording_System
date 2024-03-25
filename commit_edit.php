@@ -55,4 +55,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-prescription'])){
         echo "Error: " . $update_query . "<br>" . $conn->error;
     }
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-doctor'])){  
+    $id = $_POST['id-doctor'];
+    $doc_id = $_POST['docId'];
+    $name = $_POST['name'];
+    $designation = $_POST['designation'];
+    $phone = $_POST['phoneNum'];
+    $address = $_POST['address'];
+   
+    
+    $update_query = "UPDATE mediweb_doctor SET doctor_id='$doc_id', name='$name', designation='$designation', 
+    phone='$phone', address='$address' WHERE doctorNum='$id'";
+
+
+    if ($conn->query($update_query) === TRUE) {
+        header("Location: doctor.php");
+    } else {
+        echo "Error: " . $update_query . "<br>" . $conn->error;
+    }
+}
 ?>
