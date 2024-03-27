@@ -35,7 +35,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-container'])){
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-prescription'])){  
     $id = $_POST['id-prescription'];
-    $doctor_id = $_POST['doctorName'];
+    $universal_id = $_POST['doctorName'];
     $patient_id = $_POST['patient_id'];
     $medicine = $_POST['medicines'];
     $medicalCon = $_POST['medicalCondition'];
@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-prescription'])){
     $dateString = $_POST['date'];
     $date = date('Y-m-d',strtotime($dateString));
     
-    $update_query = "UPDATE mediweb_prescription SET doctor_id = '$doctor_id',
+    $update_query = "UPDATE mediweb_prescription SET doctor_id = '$universal_id',
     patient_id = '$patient_id',
     Medicine = '$medicine',
     medicalCondition = '$medicalCon',
@@ -71,6 +71,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-doctor'])){
 
     if ($conn->query($update_query) === TRUE) {
         header("Location: doctor.php");
+    } else {
+        echo "Error: " . $update_query . "<br>" . $conn->error;
+    }
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-insurance'])){  
+    $id = $_POST['id-insurance'];
+    $ins_id = $_POST['insId'];
+    $car_name = $_POST['ca_name'];
+    $ins_plan = $_POST['ins_plan'];
+    $con_num = $_POST['contactNum'];
+    $pol_num = $_POST['policyNum'];
+    $group_num = $_POST['g_num'];
+   
+    
+    $update_query = "UPDATE mediweb_insurance SET insurance_id='$ins_id', carrier_name='$car_name', contact_number='$con_num', 
+    insurance_plan='$ins_plan', policy_number='$pol_num', group_number = '$group_num' WHERE insurance_no='$id'";
+
+
+    if ($conn->query($update_query) === TRUE) {
+        header("Location: insurance.php");
     } else {
         echo "Error: " . $update_query . "<br>" . $conn->error;
     }

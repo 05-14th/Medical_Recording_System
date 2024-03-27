@@ -14,9 +14,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirm'])){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmPres'])){
-    $docId = $_POST["id-prescription"];
+    $insId = $_POST["id-prescription"];
 
-    $delete_query = "DELETE FROM mediweb_prescription WHERE prescription_id='$docId'";
+    $delete_query = "DELETE FROM mediweb_prescription WHERE prescription_id='$insId'";
     if ($conn->query($delete_query) === TRUE) {
         header("Location: prescription.php");
     } else {
@@ -25,11 +25,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmPres'])){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmDoc'])){
-    $docId = $_POST["id-doctor"];
+    $insId = $_POST["id-doctor"];
 
-    $delete_query = "DELETE FROM mediweb_doctor WHERE doctor_id='$docId'";
+    $delete_query = "DELETE FROM mediweb_doctor WHERE doctor_id='$insId'";
     if ($conn->query($delete_query) === TRUE) {
         header("Location: doctor.php");
+    } else {
+        echo "Error: " . $delete_query . "<br>" . $conn->error;
+    }
+}
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['confirmIns'])){
+    $insId = $_POST["id-insurance"];
+
+    $delete_query = "DELETE FROM mediweb_insurance WHERE insurance_id='$insId'";
+    if ($conn->query($delete_query) === TRUE) {
+        header("Location: insurance.php");
     } else {
         echo "Error: " . $delete_query . "<br>" . $conn->error;
     }

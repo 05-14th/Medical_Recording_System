@@ -35,7 +35,7 @@
         <nav class="navbar navbar-light bg-light">
             <a class="navbar-brand" href="#">
                 <img src="./Assets/M.png" width="30" height="30" class="d-inline-block align-top" alt="">
-                MediWeb - Patient Management Systeam
+                MediWeb - Patient Management System
             </a>
         </nav>
         <div class="admin-dashboard">

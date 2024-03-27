@@ -73,7 +73,7 @@ function generateData($sql){
             </div>
         </form>
     </div>
-    <button type="button" data-id="" class="btn btn-success" onclick="addModal()">Add Health Record</button>
+    <button type="button" data-id="" class="btn btn-success" onclick="addModal()">Add Patient</button>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
@@ -128,7 +128,7 @@ function generateData($sql){
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add Health Record</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Patient Record</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" onclick="closeModal()">&times;</span>
                     </button>

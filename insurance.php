@@ -7,16 +7,16 @@ function generateData($sql){
     $dataResult = mysqli_query($conn, $sql);
     while ($medicalResult = mysqli_fetch_assoc($dataResult)){
         echo "<tr>";
-        echo "<td>" . $medicalResult['name'] . "</td>";
-        echo "<td>" . $medicalResult['lname']. " ".$medicalResult['fname']. "</td>";
-        echo "<td>" . $medicalResult['Medicine'] . "</td>";
-        echo "<td>" . $medicalResult['medicalCondition'] . "</td>";
-        echo "<td>".  $medicalResult['allergies'] ."</td>";
-        echo "<td>".  $medicalResult['date'] ."</td>";
+        echo "<td>".  $medicalResult['insurance_id'] ."</td>";
+        echo "<td>" . $medicalResult['carrier_name'] . "</td>";
+        echo "<td>" . $medicalResult['insurance_plan'] . "</td>";
+        echo "<td>" . $medicalResult['contact_number'] . "</td>";
+        echo "<td>" . $medicalResult['policy_number'] . "</td>";
+        echo "<td>" . $medicalResult['group_number'] . "</td>";
         echo "<td>";
-        //echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-success tweak-button' onclick=''>Print</button><br>";
-        echo "<button type='button' data-id='" . $medicalResult['prescription_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
-        echo "<button type='button' data-id='" . $medicalResult['prescription_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
+        //echo "<button type='button' data-id='" . $medicalResult['insurance_id'] ."' class='btn btn-success tweak-button' onclick=''>Print</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['insurance_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['insurance_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
         echo "</td>";
         echo "</tr>";
     }
@@ -61,22 +61,22 @@ function generateData($sql){
     <div class="search-form">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group" style="display:flex;">
-                <input style="width: 30vw; height: 6vh;" placeholder="Search for Prescription" name="search-input"><br>
+                <input style="width: 30vw; height: 6vh;" placeholder="Search for Insurance" name="search-input"><br>
                 <input style="width: 6vw; height: 6vh;" type="submit" class="btn btn-primary" name="search-button" value="Search">    
             </div>
         </form>
     </div>
-    <button type="button" data-id="" class="btn btn-success" onclick="addModal()">Add Prescription</button>
+    <button type="button" data-id="" class="btn btn-success" onclick="addModal()">Add Insurance</button>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Medicines</th>
-                    <th>Medical Conditon</th>
-                    <th>Allergies</th>
-                    <th>Date</th>
+                    <th>Insurance ID</th>
+                    <th>Carrier Name</th>
+                    <th>Insurance Plan</th>
+                    <th>Contact Number</th>
+                    <th>Policy Number</th>
+                    <th>Group Number</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -85,18 +85,18 @@ function generateData($sql){
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search-button"])) {
                     if(strlen(trim($_POST['search-input'])) === 0) {
                         // Retrieve and sanitize the SQL query from the form
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                        $sql_query = "SELECT * FROM mediweb_insurance";  
                         generateData($sql_query);
                     }elseif(isset($_POST['search-input'])){
                         $search_result = $_POST['search-input'];
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id WHERE medicalCondition LIKE '%$search_result%' OR b.fname LIKE '%$search_result%' OR b.lname LIKE '%$search_result%'";  
+                        $sql_query = "SELECT * FROM mediweb_insurance WHERE carrier_name LIKE '%$search_result%' OR insurance_id LIKE '%$search_result%'";  
                         generateData($sql_query);
                     }else {
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                        $sql_query = "SELECT * FROM mediweb_insurance";  
                         generateData($sql_query);    
                     }
                 }else {
-                    $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                    $sql_query = "SELECT * FROM mediweb_insurance";  
                     generateData($sql_query);    
                 }
                 ?>
@@ -114,7 +114,7 @@ function generateData($sql){
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addModalLabel">Add Prescription</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add Insurance Record</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" onclick="closeModal()">&times;</span>
                     </button>
@@ -122,43 +122,22 @@ function generateData($sql){
                 <div class="modal-body">
                     <form method="post" action="add_details.php" enctype="multipart/form-data">
                         <div class="form-group">
-                            <?php 
-                                $doc_sql = "SELECT doctor_id, name FROM mediweb_doctor";
-                                $doc_result = $conn->query($doc_sql);
-                                $doc_options = "";
-                                if ($doc_result->num_rows > 0) {
-                                    while ($row = $doc_result->fetch_assoc()) {
-                                        $doc_options .= "<option value='" . $row['doctor_id'] . "'>" . $row['name'] . "</option>";
-                                    }
-                                }
-                                echo "Doctor Name: <select name='doctorName' class='form-control'>" . $doc_options . "</select>";
-                            ?>
+                            <input class="form-control" name="insId" placeholder="Insurance ID" required>
                         </div>
                         <div class="form-group">
-                            <?php 
-                                $doc_sql = "SELECT externalID, lname, fname FROM mediweb_patient";
-                                $doc_result = $conn->query($doc_sql);
-                                $doc_options = "";
-                                if ($doc_result->num_rows > 0) {
-                                    while ($row = $doc_result->fetch_assoc()) {
-                                        $doc_options .= "<option value='".$row['externalID']."'>".$row['lname']." ".$row['fname']."</option>";
-                                    }
-                                }
-                                echo "Patient Name: <select name='patient_id' class='form-control'>" . $doc_options . "</select>";
-                            ?>
+                            <input class="form-control" name="ca_name" placeholder="Carrier Name" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="medicines" placeholder="Medicine" required></textarea>
+                            <input class="form-control" name="ins_plan" placeholder="Insurance Plan" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="medicalCondition" placeholder="Medical Condition" rows=3 required></textarea>
+                            <input class="form-control" name="contactNum" placeholder="Contact Number" required>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="allergies" placeholder="Allergies" rows=3 required></textarea>
+                            <input class="form-control" name="policyNum" placeholder="Policy Number" required>
                         </div>
                         <div class="form-group">
-                            <label for="date">Enter Date:</label>
-                            <input type="date" class="form-control" name="date" required>
+                            <input class="form-control" name="g_num" placeholder="Group Number" required>
                         </div>
                         <input type="submit" class="btn btn-success" name="add_site" value="Confirm">
                         <button type="button" class="btn btn-danger" name="cancel_add" onclick="closeModal()">Cancel</button>
@@ -199,9 +178,9 @@ function generateData($sql){
                 </div>
                 <div class="modal-body">
                     <form method="post"action="delete_details.php">
-                        <input type="hidden" name="id-prescription" id="id-container">
+                        <input type="hidden" name="id-insurance" id="id-container">
                         <h5>This action will cause this data to be permanently deleted. Are you sure you want to proceed?</h5>
-                        <input type="submit" value="Confirm" class="btn btn-danger" name="confirmPres">
+                        <input type="submit" value="Confirm" class="btn btn-danger" name="confirmIns">
                         <button type="button" class="btn btn-success" onclick="closeModal()">Cancel</button>
                     </form>
                 </div>
@@ -242,8 +221,8 @@ function generateData($sql){
                 // AJAX request to send data to PHP
                 $.ajax({
                     type: 'POST',
-                    url: 'edit_prescription.php', // Replace with your PHP file to retrieve place details
-                    data: { prescription_id: placeId }, // Replace 'your_place_id' with the actual place ID
+                    url: 'edit_insurance.php', // Replace with your PHP file to retrieve place details
+                    data: { insurance_id: placeId }, // Replace 'your_place_id' with the actual place ID
                     success: function(response) {
                         // Inject the retrieved form content into the modal body
                         $('#destinationDetailsContent').html(response);

@@ -27,32 +27,62 @@ session_start();
 <form method="post" action="commit_edit.php" enctype="multipart/form-data">
  <?php
             if(isset($_POST['prescription_id'])){
-                $doctor_id = $_POST['prescription_id'];
-                $sql = "SELECT * FROM mediweb_prescription WHERE prescription_id='$doctor_id'";
-                $doctorResult = mysqli_query($conn, $sql);
-                $doctorRow = mysqli_fetch_assoc($doctorResult);
+                $universal_id = $_POST['prescription_id'];
+                $sql = "SELECT * FROM mediweb_prescription WHERE prescription_id='$universal_id'";
+                $uniResult = mysqli_query($conn, $sql);
+                $uniRow = mysqli_fetch_assoc($uniResult);
                 // Store patientRow data in the session
-                $_SESSION['prescriptionRow'] = $doctorRow; 
+                $_SESSION['prescriptionRow'] = $uniRow; 
+
+                // Fetch doctor options from the database
+                $doctorSql = "SELECT doctor_id, name FROM mediweb_doctor"; // Assuming your doctors table has 'id' and 'name' columns
+                $doctorResult = mysqli_query($conn, $doctorSql);
+                $doctorOptions = array();
+                while ($row = mysqli_fetch_assoc($doctorResult)) {
+                    $doctorOptions[] = $row;
+                }
+
+                // Fetch patient options from the database
+                $patientSql = "SELECT externalID, fname, lname FROM mediweb_patient"; // Assuming your patients table has 'id' and 'name' columns
+                $patientResult = mysqli_query($conn, $patientSql);
+                $patientOptions = array();
+                while ($row = mysqli_fetch_assoc($patientResult)) {
+                    $patientOptions[] = $row;
+                }
         ?>
-                         <input type=hidden name="id-prescription" value="<?php echo $doctorRow['prescription_id']; ?>">
+                         <input type=hidden name="id-prescription" value="<?php echo $uniRow['prescription_id']; ?>">
                          <div class="form-group">
-                            <input class="form-control" name="doctorName" placeholder="Doctor's Name" value="<?php echo $doctorRow['doctor_id']; ?>">
+                            <select class="form-control" name="doctorName" disabled>
+                                <?php
+                                foreach ($doctorOptions as $doctorOption) {
+                                    $selected = ($doctorOption['doctor_id'] == $uniRow['doctor_id']) ? 'selected' : '';
+                                    echo '<option value="' . $doctorOption['doctor_id'] . '" ' . $selected . '>' . $doctorOption['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="patient_id" placeholder="Patient ID" value="<?php echo $doctorRow['patient_id']; ?>">
+                            <select class="form-control" name="patient_id" disabled>
+                                <?php
+                                foreach ($patientOptions as $patientOption) {
+                                    $selected = ($patientOption['externalID'] == $uniRow['patient_id']) ? 'selected' : '';
+                                    echo '<option value="' . $patientOption['externalID'] . '" ' . $selected . '>' . $patientOption['fname'] . " " . $patientOption['lname'] . '</option>';
+                                }
+                                ?>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="medicines" placeholder="Medecine"><?php echo $doctorRow['Medicine']; ?></textarea>
+                            <textarea class="form-control" name="medicines" placeholder="Medecine"><?php echo $uniRow['Medicine']; ?></textarea>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="medicalCondition" placeholder="Medical Condition" rows=3><?php echo $doctorRow['medicalCondition']; ?></textarea>
+                            <textarea class="form-control" name="medicalCondition" placeholder="Medical Condition" rows=3><?php echo $uniRow['medicalCondition']; ?></textarea>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" name="allergies" placeholder="Allergies" rows=3><?php echo $doctorRow['allergies']; ?></textarea>
+                            <textarea class="form-control" name="allergies" placeholder="Allergies" rows=3><?php echo $uniRow['allergies']; ?></textarea>
                         </div>
                         <div class="form-group">
                             <label for="date">Enter Date:</label>
-                            <input type="date" class="form-control" name="date" value="<?php echo $doctorRow['date']; ?>">
+                            <input type="date" class="form-control" name="date" value="<?php echo $uniRow['date']; ?>">
                         </div>
                         <input type="submit" class="btn btn-success" name="add_site" value="Confirm">
                         <button type="button" class="btn btn-danger" name="cancel_add" onclick="closeModal()">Cancel</button>

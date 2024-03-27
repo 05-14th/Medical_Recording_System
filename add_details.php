@@ -49,12 +49,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['docId'])){
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['doctorName']) && isset($_POST['patient_id'])){  
     $d_name = $_POST['doctorName'];
     $p_id = $_POST['patient_id'];
+    $meds = $_POST['medicines'];
     $medCon = $_POST['medicalCondition'];
     $allergy = $_POST['allergies'];
     $dateString = $_POST['date'];
     $date = date('Y-m-d',strtotime($dateString));
    
-    $insert_query = "INSERT INTO mediweb_prescription (doctor_id, patient_id, medicalCondition, allergies, date) VALUES ('$d_name','$p_id','$medCon', '$allergy', '$date')";
+    $insert_query = "INSERT INTO mediweb_prescription (doctor_id, patient_id, Medicine, medicalCondition, allergies, date) VALUES ('$d_name','$p_id', '$meds','$medCon', '$allergy', '$date')";
     if ($conn->query($insert_query) === TRUE) {
         header("Location: prescription.php");
     } else {
@@ -62,5 +63,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['doctorName']) && isset(
     }   
 }
 
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['insId'])){  
+    $insId = $_POST['insId'];
+    $cname = $_POST['ca_name'];
+    $plan = $_POST['ins_plan'];
+    $conNum = $_POST['contactNum'];
+    $polNum = $_POST['policyNum'];
+    $groupNum = $_POST['g_num'];
+   
+    $insert_query = "INSERT INTO mediweb_insurance (insurance_id, carrier_name, insurance_plan, contact_number, policy_number, group_number) VALUES ('$insId','$cname','$plan', '$conNum', '$polNum', '$groupNum')";
+    if ($conn->query($insert_query) === TRUE) {
+        header("Location: insurance.php");
+    } else {
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
+    }   
+}
 ?>
 

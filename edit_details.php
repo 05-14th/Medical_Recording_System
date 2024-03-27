@@ -27,59 +27,59 @@ session_start();
 <form method="post" action="commit_edit.php" enctype="multipart/form-data">
  <?php
             if(isset($_POST['patient_id'])){
-                $doctor_id = $_POST['patient_id'];
-                $sql = "SELECT * FROM mediweb_patient WHERE patient_id='$doctor_id'";
-                $doctorResult = mysqli_query($conn, $sql);
-                $doctorRow = mysqli_fetch_assoc($doctorResult);
+                $universal_id = $_POST['patient_id'];
+                $doc_sql = "SELECT * FROM mediweb_patient WHERE patient_id='$universal_id'";
+                $uniResult = mysqli_query($conn, $doc_sql);
+                $uniRow = mysqli_fetch_assoc($uniResult);
                 // Store patientRow data in the session
-                $_SESSION['patientRow'] = $doctorRow; 
+                $_SESSION['patientRow'] = $uniRow; 
         ?>
-                         <input type=hidden name="id-container" value="<?php echo $doctorRow['patient_id']; ?>">
+                         <input type=hidden name="id-container" value="<?php echo $uniRow['patient_id']; ?>">
                         <div class="form-group">
-                            <input class="form-control" name="fname" placeholder="First Name" value="<?php echo $doctorRow['fname']; ?>">
+                            <input class="form-control" name="fname" placeholder="First Name" value="<?php echo $uniRow['fname']; ?>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="lname" placeholder="Last Name" value="<?php echo $doctorRow['lname']; ?>">
+                            <input class="form-control" name="lname" placeholder="Last Name" value="<?php echo $uniRow['lname']; ?>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="title" placeholder="Title" value="<?php echo $doctorRow['title']; ?>">
+                            <input class="form-control" name="title" placeholder="Title" value="<?php echo $uniRow['title']; ?>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="preferredName" placeholder="Preferred Name" value="<?php echo $doctorRow['preferredName']; ?>">
+                            <input class="form-control" name="preferredName" placeholder="Preferred Name" value="<?php echo $uniRow['preferredName']; ?>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="gender" placeholder="Gender" value="<?php echo $doctorRow['gender']; ?>">
+                            <input class="form-control" name="gender" placeholder="Gender" value="<?php echo $uniRow['gender']; ?>">
                         </div>
                         <div class="form-group"> 
-                            <input class="form-control" name="sexualOrientation" placeholder="Sexual Orientation" value="<?php echo $doctorRow['sexualOrientation']; ?>">
+                            <input class="form-control" name="sexualOrientation" placeholder="Sexual Orientation" value="<?php echo $uniRow['sexualOrientation']; ?>">
                         </div>
                         <div style="display: flex;">
                         <div class="form-group">
                             <label for="selected_date">Birthdate:</label>
-                            <input type="date" id="selected_date" name="selected_date" value="<?php echo $doctorRow['birthdate']; ?>">
+                            <input type="date" id="selected_date" name="selected_date" value="<?php echo $uniRow['birthdate']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="bloodType">Blood Type: </label>
                             <select name="bloodType">
-                                <option value="O+" <?php if($doctorRow['bloodType'] == 'O+') echo 'selected'; ?>>O+</option>
-                                <option value="O-" <?php if($doctorRow['bloodType'] == 'O-') echo 'selected'; ?>>O-</option>
-                                <option value="A+" <?php if($doctorRow['bloodType'] == 'A+') echo 'selected'; ?>>A+</option>
-                                <option value="A-" <?php if($doctorRow['bloodType'] == 'A-') echo 'selected'; ?>>A-</option>
-                                <option value="B+" <?php if($doctorRow['bloodType'] == 'B+') echo 'selected'; ?>>B+</option>
-                                <option value="B-" <?php if($doctorRow['bloodType'] == 'B-') echo 'selected'; ?>>B-</option>
-                                <option value="AB+" <?php if($doctorRow['bloodType'] == 'AB+') echo 'selected'; ?>>AB+</option>
-                                <option value="AB-" <?php if($doctorRow['bloodType'] == 'AB-') echo 'selected'; ?>>AB-</option>
+                                <option value="O+" <?php if($uniRow['bloodType'] == 'O+') echo 'selected'; ?>>O+</option>
+                                <option value="O-" <?php if($uniRow['bloodType'] == 'O-') echo 'selected'; ?>>O-</option>
+                                <option value="A+" <?php if($uniRow['bloodType'] == 'A+') echo 'selected'; ?>>A+</option>
+                                <option value="A-" <?php if($uniRow['bloodType'] == 'A-') echo 'selected'; ?>>A-</option>
+                                <option value="B+" <?php if($uniRow['bloodType'] == 'B+') echo 'selected'; ?>>B+</option>
+                                <option value="B-" <?php if($uniRow['bloodType'] == 'B-') echo 'selected'; ?>>B-</option>
+                                <option value="AB+" <?php if($uniRow['bloodType'] == 'AB+') echo 'selected'; ?>>AB+</option>
+                                <option value="AB-" <?php if($uniRow['bloodType'] == 'AB-') echo 'selected'; ?>>AB-</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="maritalStat">Marital Status: </label>
                             <select name="maritalStat">
                                 <option value="Default" disabled>Select Marital Status</option>
-                                <option value="Single" <?php if($doctorRow['maritalStatus'] == 'Single') echo 'selected'; ?>>Single</option>
-                                <option value="Married" <?php if($doctorRow['maritalStatus'] == 'Marrried') echo 'selected'; ?>>Married</option>
-                                <option value="Widowed" <?php if($doctorRow['maritalStatus'] == 'Widowed') echo 'selected'; ?>>Widowed</option>
-                                <option value="Partners" <?php if($doctorRow['maritalStatus'] == 'Partners') echo 'selected'; ?>>Partners</option>
-                                <option value="Divorced" <?php if($doctorRow['maritalStatus'] == 'Divorced') echo 'selected'; ?>>Divorced</option>
+                                <option value="Single" <?php if($uniRow['maritalStatus'] == 'Single') echo 'selected'; ?>>Single</option>
+                                <option value="Married" <?php if($uniRow['maritalStatus'] == 'Marrried') echo 'selected'; ?>>Married</option>
+                                <option value="Widowed" <?php if($uniRow['maritalStatus'] == 'Widowed') echo 'selected'; ?>>Widowed</option>
+                                <option value="Partners" <?php if($uniRow['maritalStatus'] == 'Partners') echo 'selected'; ?>>Partners</option>
+                                <option value="Divorced" <?php if($uniRow['maritalStatus'] == 'Divorced') echo 'selected'; ?>>Divorced</option>
                             </select>
                         </div>
                         </div>
@@ -87,18 +87,18 @@ session_start();
                         <div class="form-group">
                             <label for="wardType">Ward: </label>
                             <select name="wardType" >
-                                <option value="Medical" <?php if($doctorRow['ward'] == 'Medical') echo 'selected'; ?>>Medical Ward</option>
-                                <option value="OB" <?php if($doctorRow['ward'] == 'OB') echo 'selected'; ?>>OB Ward</option>
-                                <option value="Surgical <?php if($doctorRow['ward'] == 'Surgical') echo 'selected'; ?>">Surgical Ward</option>
-                                <option value="Philhealth" <?php if($doctorRow['ward'] == 'Philhealth') echo 'selected'; ?>>Philhealth Ward</option>
-                                <option value="Pediatric" <?php if($doctorRow['ward'] == 'Pediatric') echo 'selected'; ?>>Pediatric Ward</option>
+                                <option value="Medical" <?php if($uniRow['ward'] == 'Medical') echo 'selected'; ?>>Medical Ward</option>
+                                <option value="OB" <?php if($uniRow['ward'] == 'OB') echo 'selected'; ?>>OB Ward</option>
+                                <option value="Surgical <?php if($uniRow['ward'] == 'Surgical') echo 'selected'; ?>">Surgical Ward</option>
+                                <option value="Philhealth" <?php if($uniRow['ward'] == 'Philhealth') echo 'selected'; ?>>Philhealth Ward</option>
+                                <option value="Pediatric" <?php if($uniRow['ward'] == 'Pediatric') echo 'selected'; ?>>Pediatric Ward</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="externalId" placeholder="External ID" value="<?php echo $doctorRow['externalID']; ?>">
+                            <input class="form-control" name="externalId" placeholder="External ID" value="<?php echo $uniRow['externalID']; ?>">
                         </div>
                         <div class="form-group">
-                            <input class="form-control" name="licensedId" placeholder="Licensed ID" value="<?php echo $doctorRow['licenseID']; ?>">
+                            <input class="form-control" name="licensedId" placeholder="Licensed ID" value="<?php echo $uniRow['licenseID']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="date_confirmed">Date: </label>
