@@ -58,18 +58,18 @@ session_start();
 </head>
 <body>
   <section class="login-container">
-    <h2 class="text-center">Mediweb Login</h2>
+    <h2 class="text-center">Mediweb Admin Authorization</h2>
     <form method="POST" action="verify.php">
       <div class="form-group">
-        <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+        <input type="text" class="form-control" name="admin" id="admin" aria-describedby="adminHelp" placeholder="Enter admin ID">
       </div>
       <div class="form-group">
         <input type="password" class="form-control" name="password" id="password" placeholder="Password">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Login</button>
+      <button type="submit" class="btn btn-primary btn-block">Verify</button>
     </form>
     <div class="text-center signup-link">
-      <p>Don't have an account? <a href="admin_auth.php">Register</a></p>
+      <p>Not an admin? Return to <a href="index.php">Login</a></p>
     </div>
   </section>
 </body>

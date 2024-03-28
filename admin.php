@@ -1,3 +1,7 @@
+<?php 
+require_once "config.php";
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,7 +51,13 @@
                 <span class="btn btn-primary control-button" onclick= "window.location.href='logout.php'">Logout</span><br>
             </nav>
             <div id="touristSiteContent" class="touristSite">
-                <iframe src="patient.php" id="touristFrame" frameborder="0"></iframe>
+            <?php
+            if(isset($_SESSION['userId']) && $_SESSION['userId'] != null) {
+                echo '<iframe src="patient.php" id="touristFrame" frameborder="0"></iframe>';
+            } else {
+                echo 'Please Login First';
+            }
+            ?>  
             </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
