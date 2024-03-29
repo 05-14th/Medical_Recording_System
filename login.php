@@ -8,8 +8,8 @@ session_start();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <link href="style.css" rel="stylesheet">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
   <style>
     body {
       display: flex;
@@ -58,17 +58,19 @@ session_start();
   </style>
 </head>
 <body>
-  <div class="bg-image"></div>
   <section class="login-container">
-    <h2 class="text-center">Mediweb Patient Details</h2>
-    <form method="POST" action="">
+    <h2 class="text-center">Mediweb Login</h2>
+    <form method="POST" action="verify.php">
       <div class="form-group">
-        <input type="text" class="form-control" name="extID" id="extID" aria-describedby="externalHelp" placeholder="External ID">
+        <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Show Details</button>
+      <div class="form-group">
+        <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
     </form>
     <div class="text-center signup-link">
-      <p><a href="login.php">Login as Nurse</a></p>
+      <p>Don't have an account? <a href="admin_auth.php">Register</a></p>
     </div>
   </section>
 </body>
