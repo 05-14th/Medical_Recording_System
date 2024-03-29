@@ -70,7 +70,7 @@ session_start();
       <button type="submit" class="btn btn-primary btn-block">Verify</button>
     </form>
     <div class="text-center signup-link">
-      <p>Not an admin? Return to <a href="index.php">Login</a></p>
+      <p>Not an admin? Return to <a href="login.php">Login</a></p>
     </div>
   </section>
 </body>

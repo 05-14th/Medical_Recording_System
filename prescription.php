@@ -9,6 +9,8 @@ function generateData($sql){
         echo "<tr>";
         echo "<td>" . $medicalResult['name'] . "</td>";
         echo "<td>" . $medicalResult['lname']. " ".$medicalResult['fname']. "</td>";
+        echo "<td>" . $medicalResult['insurance_id'] . "</td>";
+        echo "<td>" . $medicalResult['carrier_name'] . "</td>";
         echo "<td>" . $medicalResult['Medicine'] . "</td>";
         echo "<td>" . $medicalResult['medicalCondition'] . "</td>";
         echo "<td>".  $medicalResult['allergies'] ."</td>";
@@ -73,6 +75,8 @@ function generateData($sql){
                 <tr>
                     <th>Doctor Name</th>
                     <th>Patient Name</th>
+                    <th>Insurance ID</th>
+                    <th>Insurance Carrier</th>
                     <th>Medicines</th>
                     <th>Medical Conditon</th>
                     <th>Allergies</th>
@@ -85,18 +89,18 @@ function generateData($sql){
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search-button"])) {
                     if(strlen(trim($_POST['search-input'])) === 0) {
                         // Retrieve and sanitize the SQL query from the form
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id INNER JOIN mediweb_insurance d ON a.insurance_id = d.insurance_id";  
                         generateData($sql_query);
                     }elseif(isset($_POST['search-input'])){
                         $search_result = $_POST['search-input'];
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id WHERE medicalCondition LIKE '%$search_result%' OR b.fname LIKE '%$search_result%' OR b.lname LIKE '%$search_result%'";  
+                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id INNER JOIN mediweb_insurance d ON a.insurance_id = d.insurance_id WHERE medicalCondition LIKE '%$search_result%' OR b.fname LIKE '%$search_result%' OR b.lname LIKE '%$search_result%'";  
                         generateData($sql_query);
                     }else {
-                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                        $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id INNER JOIN mediweb_insurance d ON a.insurance_id = d.insurance_id";  
                         generateData($sql_query);    
                     }
                 }else {
-                    $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id";  
+                    $sql_query = "SELECT * FROM mediweb_prescription a INNER JOIN mediweb_patient b ON a.patient_id = b.externalID INNER JOIN mediweb_doctor c ON a.doctor_id = c.doctor_id INNER JOIN mediweb_insurance d ON a.insurance_id = d.insurance_id";  
                     generateData($sql_query);    
                 }
                 ?>
@@ -145,6 +149,19 @@ function generateData($sql){
                                     }
                                 }
                                 echo "Patient Name: <select name='patient_id' class='form-control'>" . $doc_options . "</select>";
+                            ?>
+                        </div>
+                        <div class="form-group">
+                            <?php 
+                                $doc_sql = "SELECT insurance_id FROM mediweb_insurance";
+                                $doc_result = $conn->query($doc_sql);
+                                $doc_options = "";
+                                if ($doc_result->num_rows > 0) {
+                                    while ($row = $doc_result->fetch_assoc()) {
+                                        $doc_options .= "<option value='".$row['insurance_id']."'>".$row['insurance_id']."</option>";
+                                    }
+                                }
+                                echo "Insurance ID: <select name='ins_id' class='form-control'>" . $doc_options . "</select>";
                             ?>
                         </div>
                         <div class="form-group">

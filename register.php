@@ -79,7 +79,7 @@ session_start();
       <button type="submit" class="btn btn-primary btn-block" name="register">Signup</button>
     </form>
     <div class="text-center login-link">
-      <p>Already have an account? <a href="index.php">Login</a></p>
+      <p>Already have an account? <a href="login.php">Login</a></p>
     </div>
   </section>
   <script>

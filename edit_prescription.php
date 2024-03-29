@@ -49,6 +49,13 @@ session_start();
                 while ($row = mysqli_fetch_assoc($patientResult)) {
                     $patientOptions[] = $row;
                 }
+
+                $insSql = "SELECT insurance_id, carrier_name FROM mediweb_insurance"; 
+                $insResult = mysqli_query($conn, $insSql);
+                $insOptions = array();
+                while ($row = mysqli_fetch_assoc($insResult)) {
+                    $insOptions[] = $row;
+                }
         ?>
                          <input type=hidden name="id-prescription" value="<?php echo $uniRow['prescription_id']; ?>">
                          <div class="form-group">
@@ -67,6 +74,16 @@ session_start();
                                 foreach ($patientOptions as $patientOption) {
                                     $selected = ($patientOption['externalID'] == $uniRow['patient_id']) ? 'selected' : '';
                                     echo '<option value="' . $patientOption['externalID'] . '" ' . $selected . '>' . $patientOption['fname'] . " " . $patientOption['lname'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="patient_id" disabled>
+                                <?php
+                                foreach ($insOptions as $insOption) {
+                                    $selected = ($insOption['insurance_id'] == $uniRow['insurance_id']) ? 'selected' : '';
+                                    echo '<option value="' . $insOption['insurance_id'] . '" ' . $selected . '>' . $insOption['insurance_id'] . '</option>';
                                 }
                                 ?>
                             </select>
