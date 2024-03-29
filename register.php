@@ -59,27 +59,61 @@ session_start();
 <body>
   <section class="signup-container">
     <h2 class="text-center">Signup for Mediweb</h2>
-    <form>
+    <form method="POST" action="verify.php" onsubmit="return validateForm()">
       <div class="form-group">
-        <input type="text" class="form-control" id="full-name" placeholder="Full Name">
+        <input type="text" class="form-control" name="full-name" placeholder="Full Name">
       </div>
       <div class="form-group">
-        <input type="text" class="form-control" id="username" placeholder="Username">
+        <input type="text" class="form-control" name="username" placeholder="Username">
       </div>
       <div class="form-group">
-        <input type="email" class="form-control" id="email" placeholder="Email">
+        <input type="email" class="form-control" id="email" name="_email" placeholder="Email">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="password" placeholder="Password">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="confirm-password" placeholder="Confirm Password">
+        <input type="password" class="form-control" id="confirm_password" name="confirm-password" placeholder="Confirm Password">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Signup</button>
+      <button type="submit" class="btn btn-primary btn-block" name="register">Signup</button>
     </form>
     <div class="text-center login-link">
       <p>Already have an account? <a href="index.php">Login</a></p>
     </div>
   </section>
+  <script>
+    function validateForm() {
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var confirm_password = document.getElementById('confirm_password').value;
+
+      var valid = true;
+
+      // Validate email
+      if (!validateEmail(email)) {
+          document.getElementById('email').style.borderColor = "red";
+          valid = false;
+      } else {
+          document.getElementById('email').style.borderColor = "";
+      }
+
+      // Validate password match
+      if (password !== confirm_password || password.length < 8) {
+          document.getElementById('password').style.borderColor = "red";
+          document.getElementById('confirm_password').style.borderColor = "red";
+          valid = false;
+      } else {
+          document.getElementById('password').style.borderColor = "";
+          document.getElementById('confirm_password').style.borderColor = "";
+      }
+
+      return valid;
+  }
+
+  function validateEmail(email) {
+      var re = /\S+@\S+\.\S+/;
+      return re.test(email);
+  }
+  </script>
 </body>
 </html>
