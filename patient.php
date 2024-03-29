@@ -21,7 +21,7 @@ function generateData($sql){
         echo "<td>" . $medicalResult['licenseID'] . "</td>";
         echo "<td>" . $medicalResult['updatedDate'] . "</td>";
         echo "<td>";
-        //echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-success tweak-button' onclick=''>Print</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-success tweak-button' onclick='addContact(this)'>Add Contact</button><br>";
         echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
         echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
         echo "</td>";
@@ -255,13 +255,21 @@ function generateData($sql){
         var add_modal = document.getElementById("addModal");
         var edit_modal = document.getElementById("editModal");
         var delete_modal = document.getElementById("deleteModal");
+        var edit_label =document.getElementById("editModalLabel");
 
         function addModal(){
             add_modal.style.display = "block";
         }
 
+        function addContact(button){
+            sendContactRequest(button)
+            edit_label.innerHTML = "Add Emergency Contact";
+            edit_modal.style.display = "block";
+        }
+
         function editModal(button){
             sendEditRequest(button)
+            edit_label.innerHTML = "Edit Information";
             edit_modal.style.display = "block";
         }
 
@@ -294,6 +302,24 @@ function generateData($sql){
                     }
                 });
             }
+        
+        function sendContactRequest(button) {
+            var patientId = button.getAttribute('data-id'); // Get the place ID from data-id attribute
+
+            // AJAX request to send data to PHP
+            $.ajax({
+                type: 'POST',
+                url: 'add_contact.php', // Replace with your PHP file to retrieve place details
+                data: { patient_idc: patientId }, // Replace 'your_place_id' with the actual place ID
+                success: function(response) {
+                    // Inject the retrieved form content into the modal body
+                    $('#destinationDetailsContent').html(response);
+                },
+                error: function() {
+                    alert('Error occurred while fetching place details.');
+                }
+            });
+        }
 
     </script>
 </body>

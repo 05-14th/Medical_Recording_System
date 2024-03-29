@@ -79,5 +79,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['insId'])){
         echo "Error: " . $insert_query . "<br>" . $conn->error;
     }   
 }
-?>
 
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['contact-conn'])){
+    $patient_extid = $_POST['contact-conn'];
+    $full_name = $_POST['fullname'];
+    $relationship = $_POST['relationship'];
+    $conNum = $_POST['contactNum'];
+
+    $insert_query = "INSERT INTO mediweb_contacts (patient_identifier, fullname, relationship, contact_num) VALUES ('$patient_extid','$full_name', '$relationship','$conNum')";
+    if ($conn->query($insert_query) === TRUE) {
+        header("Location: patient.php");
+    } else {
+        echo "Error: " . $insert_query . "<br>" . $conn->error;
+    }   
+}
+?>
