@@ -61,11 +61,11 @@ session_start();
   <div class="bg-image"></div>
   <section class="login-container">
     <h2 class="text-center">Mediweb Patient Details</h2>
-    <form method="POST" action="">
+    <form method="POST" action="verify.php">
       <div class="form-group">
         <input type="text" class="form-control" name="extID" id="extID" aria-describedby="externalHelp" placeholder="External ID">
       </div>
-      <button type="submit" class="btn btn-primary btn-block">Show Details</button>
+      <button type="submit" class="btn btn-primary btn-block" name="showPatient">Show Details</button>
     </form>
     <div class="text-center signup-link">
       <p><a href="login.php">Login as Nurse</a></p>

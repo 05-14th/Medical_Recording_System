@@ -48,4 +48,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])){
         } 
     }
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['showPatient'])){
+    $_SESSION['patient_id'] = $_POST["extID"];
+    echo "<script>window.location.href = 'patient_view.php'</script>";
+}
 ?>
