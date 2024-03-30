@@ -24,6 +24,7 @@ function generateData($sql){
         echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-success tweak-button' onclick='addContact(this)'>Add Contact</button><br>";
         echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-warning tweak-button' onclick='editModal(this)'>Edit</button><br>";
         echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-danger tweak-button' onclick='deleteModal(this)'>Delete</button><br>";
+        echo "<button type='button' data-id='" . $medicalResult['patient_id'] ."' class='btn btn-primary tweak-button' onclick='showModal(this)'>Show Contacts</button><br>";
         echo "</td>";
         echo "</tr>";
     }
@@ -228,6 +229,25 @@ function generateData($sql){
         </div>
     </div>
 
+    <!-- Modal for adding contacts -->
+    <div class="modal" id="addConModal" tabindex="-1" role="dialog" aria-labelledby="addConModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Add Emergency Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" onclick="closeModal()">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="contactDetailsContent" action="add_details.php">
+                       
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal for deleting -->
     <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -250,12 +270,36 @@ function generateData($sql){
         </div>
     </div>
 
+    <!-- Modal for showing contacts -->
+    <div class="modal" id="showModal" tabindex="-1" role="dialog" aria-labelledby="addConModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Add Emergency Contact</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" onclick="closeModal()">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contDetailsContent">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+   
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         var add_modal = document.getElementById("addModal");
         var edit_modal = document.getElementById("editModal");
         var delete_modal = document.getElementById("deleteModal");
-        var edit_label =document.getElementById("editModalLabel");
+        var addCon_modal =document.getElementById("addConModal");
+        var show_modal = document.getElementById("showModal");
 
         function addModal(){
             add_modal.style.display = "block";
@@ -263,13 +307,11 @@ function generateData($sql){
 
         function addContact(button){
             sendContactRequest(button)
-            edit_label.innerHTML = "Add Emergency Contact";
-            edit_modal.style.display = "block";
+            addCon_modal.style.display = "block";
         }
 
         function editModal(button){
-            sendEditRequest(button)
-            edit_label.innerHTML = "Edit Information";
+            sendEditRequest(button);
             edit_modal.style.display = "block";
         }
 
@@ -279,10 +321,17 @@ function generateData($sql){
             delete_modal.style.display = "block";
         }
 
+        function showModal(button){
+            showContactRequest(button);
+            show_modal.style.display = "block";
+        }
+
         function closeModal(){
             add_modal.style.display = "none";
             edit_modal.style.display = "none";
             delete_modal.style.display = "none";
+            addCon_modal.style.display = "none";
+            show_modal.style.display = "none";
         }
 
         function sendEditRequest(button) {
@@ -313,7 +362,25 @@ function generateData($sql){
                 data: { patient_idc: patientId }, // Replace 'your_place_id' with the actual place ID
                 success: function(response) {
                     // Inject the retrieved form content into the modal body
-                    $('#destinationDetailsContent').html(response);
+                    $('#contactDetailsContent').html(response);
+                },
+                error: function() {
+                    alert('Error occurred while fetching place details.');
+                }
+            });
+        }
+
+        function showContactRequest(button) {
+            var patId = button.getAttribute('data-id'); // Get the place ID from data-id attribute
+
+            // AJAX request to send data to PHP
+            $.ajax({
+                type: 'POST',
+                url: 'show_contact.php', // Replace with your PHP file to retrieve place details
+                data: { patient_showcon: patId }, // Replace 'your_place_id' with the actual place ID
+                success: function(response) {
+                    // Inject the retrieved form content into the modal body
+                    $('#contDetailsContent').html(response);
                 },
                 error: function() {
                     alert('Error occurred while fetching place details.');

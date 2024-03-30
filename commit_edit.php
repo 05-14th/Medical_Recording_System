@@ -96,4 +96,5 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id-insurance'])){
         echo "Error: " . $update_query . "<br>" . $conn->error;
     }
 }
+
 ?>

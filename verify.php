@@ -15,7 +15,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email'])){
         //$_SESSION["userId"] = $row['su_id'];
         echo "<script>window.location.href = 'admin.php'</script>";
     } else{
-        echo "<script>window.location.href = 'index.php'</script>";
+        echo "<script>window.location.href = 'login.php'</script>";
     }
 }
 
@@ -51,6 +51,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])){
 
 if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['showPatient'])){
     $_SESSION['patient_id'] = $_POST["extID"];
+    $_SESSION['pres_date'] = $_POST["_date"];
     echo "<script>window.location.href = 'patient_view.php'</script>";
 }
 ?>

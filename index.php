@@ -63,7 +63,10 @@ session_start();
     <h2 class="text-center">Mediweb Patient Details</h2>
     <form method="POST" action="verify.php">
       <div class="form-group">
-        <input type="text" class="form-control" name="extID" id="extID" aria-describedby="externalHelp" placeholder="External ID">
+        <label for='extID'>Patient Id:</label>
+        <input type="text" class="form-control" name="extID" id="extID" aria-describedby="externalHelp" placeholder="External ID" required/><br>
+        <label for='_date'>Prescription Date:</label>
+        <input type="date" class="form-control" name="_date" id="_date" required/>
       </div>
       <button type="submit" class="btn btn-primary btn-block" name="showPatient">Show Details</button>
     </form>
