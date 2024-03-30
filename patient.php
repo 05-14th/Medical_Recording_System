@@ -156,11 +156,11 @@ function generateData($sql){
                         </div>
                         <div class="form-group">
                             <label for="selected_date">Birthdate:</label>
-                            <input type="date" id="selected_date" name="selected_date">
+                            <input class="form-control" type="date" id="selected_date" name="selected_date">
                         </div>
                         <div class="form-group">
                             <label for="bloodType">Blood Type: </label>
-                            <select name="bloodType" required>
+                            <select class="form-control" name="bloodType" required>
                                 <option value="O+">O+</option>
                                 <option value="O-">O-</option>
                                 <option value="A+">A+</option>
@@ -173,7 +173,7 @@ function generateData($sql){
                         </div>
                         <div class="form-group">
                             <label for="maritalStat">Marital Status: </label>
-                            <select name="maritalStat" required>
+                            <select class="form-control" name="maritalStat" required>
                                 <option value="Default" disabled>Select Marital Status</option>
                                 <option value="Single">Single</option>
                                 <option value="Married">Married</option>
@@ -184,7 +184,8 @@ function generateData($sql){
                         </div>
                         <div class="form-group">
                             <label for="wardType">Ward: </label>
-                            <select name="wardType" required>
+                            <select class="form-control" name="wardType" required>
+                                <option value="Not Applicable">Not Applicable</option>
                                 <option value="Medical">Medical Ward</option>
                                 <option value="OB">OB Ward</option>
                                 <option value="Surgical">Surgical Ward</option>
